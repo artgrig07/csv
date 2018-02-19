@@ -13,6 +13,8 @@
 #include <QTableView>
 #include <QWidget>
 
+#include "tablemodel.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -27,6 +29,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    TableModel *viewModel;
 
     void handleButtonOpenClick();
     void handleSelectViewSelect(const QString &tableName);

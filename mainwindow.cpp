@@ -7,6 +7,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // Инициализируем tableView
+    viewModel = new TableModel();
+    ui->tableView->setModel(viewModel);
+    ui->tableView->horizontalHeader()->setStretchLastSection(true);
+
     // Нажатие "Открыть БД"
     connect(ui->buttonOpen, &QPushButton::released,
             this, &MainWindow::handleButtonOpenClick);
@@ -54,25 +59,14 @@ void MainWindow::handleButtonOpenClick()
 // Выбор таблицы в "Просмотр"
 void MainWindow::handleSelectViewSelect(const QString &tableName)
 {
-    // Сохраняем старую модель
-    const QAbstractItemModel *oldModel = ui->tableView->model();
+    // Очищаем tableView
+    viewModel->clear();
 
     // Проверяем что таблица выбрана
-    QAbstractItemModel *newModel;
-    if (!tableName.isEmpty()) {
-        // Читаем таблицу из БД
-        newModel = new QStandardItemModel();
-        // TODO
-    } else {
-        // Создаем пустую модель
-        newModel = new QStandardItemModel();
-    }
+    if (!tableName.isEmpty()) return;
 
-    // Заполняем tableView
-    ui->tableView->setModel(newModel);
-
-    // Удаляем страую модель
-    delete oldModel;
+    // Читаем таблицу из БД
+    // TODO
 }
 
 // Нажатие "Сохранить" в "Экспорт"
