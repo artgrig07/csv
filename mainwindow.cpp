@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
             this, &MainWindow::handleButtonOpenClick);
 
     // Выбор таблицы в "Просмотр"
-    connect(ui->selectView, QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
+    connect(ui->selectView, &QComboBox::currentTextChanged,
             this, &MainWindow::handleSelectViewSelect);
 
     // Нажатие "Сохранить" в "Экспорт"
