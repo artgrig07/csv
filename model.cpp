@@ -1,26 +1,36 @@
 #include "model.h"
 
-int Model::rowCount(const QModelIndex &parent) const
+void Model::clear()
 {
-    // TODO
-    return 0;
+    beginResetModel();
+    rows.clear();
+    endResetModel();
 }
 
-int Model::columnCount(const QModelIndex &parent) const
+
+int Model::rowCount(const QModelIndex &) const
 {
-    // TODO
-    return 0;
+    return rows.count();
+}
+
+int Model::columnCount(const QModelIndex &) const
+{
+    return schema.size();
 }
 
 QVariant Model::data(const QModelIndex &index, int role) const
 {
-    // TODO
-    return QVariant();
+    if (role != Qt::DisplayRole) return QVariant();
+    if (rows.empty()) return QVariant();
+
+    return rows.at(index.row()).at(index.column());
 }
 
-void Model::clear()
+QVariant Model::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    beginResetModel();
-    // TODO
-    endResetModel();
+    if (role != Qt::DisplayRole) return QVariant();
+    if (orientation != Qt::Horizontal) return QVariant();
+    if (section >= schema.count()) return QVariant();
+
+    return QVariant(schema.at(section));
 }
