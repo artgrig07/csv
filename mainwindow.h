@@ -15,6 +15,7 @@
 
 #include "model.h"
 #include "sqlite.h"
+#include "csv.h"
 
 namespace Ui {
 class MainWindow;

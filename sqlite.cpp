@@ -47,7 +47,14 @@ void SQLite::read(const QString &tableName, Model *model) const
     }
 }
 
+Model SQLite::read(const QString &tableName) const
+{
+    Model model;
+    read(tableName, &model);
+    return model;
+}
+
 void SQLite::write(const QString &tableName, const Model *model)
 {
-
+    // TODO
 }

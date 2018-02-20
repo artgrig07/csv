@@ -13,6 +13,9 @@ class Model : public QAbstractTableModel
     Q_OBJECT
 
 public:
+    Model(QObject *parent = Q_NULLPTR);
+    Model(const Model &model);
+
     typedef QStringList Schema;
     typedef QVector<QMetaType::Type> Types;
     typedef QVector<QVariant> Row;

@@ -15,6 +15,7 @@ public:
 
     QStringList tableNames() const;
     void read(const QString &tableName, Model *model) const;
+    Model read(const QString &tableName) const;
     void write(const QString &tableName, const Model *model);
 
 private:

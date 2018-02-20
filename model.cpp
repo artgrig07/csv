@@ -1,5 +1,19 @@
 #include "model.h"
 
+Model::Model(QObject *parent) :
+    QAbstractTableModel(parent)
+{
+
+}
+
+Model::Model(const Model &model) :
+    schema(model.schema),
+    types(model.types),
+    rows(model.rows)
+{
+    update();
+}
+
 void Model::update()
 {
     emit dataChanged(createIndex(0, 0), createIndex(rowCount(), columnCount()));

@@ -71,10 +71,10 @@ void MainWindow::handleButtonExportClick()
     if (fileName.isEmpty()) return;
 
     // Читаем таблицу из БД
-    db->read(tableName, viewModel);
+    const Model &model = db->read(tableName);
 
     // Сохраняем CSV
-    // TODO
+    CSV(fileName).write(&model);
 }
 
 // Нажатие "Открыть" в "Импорт"
@@ -89,8 +89,7 @@ void MainWindow::handleButtonImportClick()
     if (fileName.isEmpty()) return;
 
     // Читаем CSV
-    // TODO
-    const Model &model = Model();
+    const Model &model = CSV(fileName).read();
 
     // Сохраняем таблицу в БД
     db->write(tableName, &model);

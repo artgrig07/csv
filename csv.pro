@@ -27,12 +27,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
         model.cpp \
-        sqlite.cpp
+        sqlite.cpp \
+        csv.cpp
 
 HEADERS += \
         mainwindow.h \
         model.h \
-        sqlite.h
+        sqlite.h \
+        csv.h
 
 FORMS += \
         mainwindow.ui
