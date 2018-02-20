@@ -13,7 +13,8 @@
 #include <QTableView>
 #include <QWidget>
 
-#include "tablemodel.h"
+#include "model.h"
+#include "sqlite.h"
 
 namespace Ui {
 class MainWindow;
@@ -29,7 +30,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    TableModel *viewModel;
+    Model *viewModel;
+    SQLite *db;
 
     void handleButtonOpenClick();
     void handleSelectViewSelect(const QString &tableName);

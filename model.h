@@ -4,15 +4,12 @@
 #include <QAbstractTableModel>
 #include <QModelIndex>
 #include <QVariant>
-#include <Qt>
 
-class TableModel : public QAbstractTableModel
+class Model : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
-    TableModel();
-
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;

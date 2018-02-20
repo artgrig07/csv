@@ -8,25 +8,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     // Инициализируем tableView
-    viewModel = new TableModel();
+    viewModel = new Model();
     ui->tableView->setModel(viewModel);
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
 
-    // Нажатие "Открыть БД"
-    connect(ui->buttonOpen, &QPushButton::released,
-            this, &MainWindow::handleButtonOpenClick);
-
-    // Выбор таблицы в "Просмотр"
-    connect(ui->selectView, &QComboBox::currentTextChanged,
-            this, &MainWindow::handleSelectViewSelect);
-
-    // Нажатие "Сохранить" в "Экспорт"
-    connect(ui->buttonExport, &QPushButton::released,
-            this, &MainWindow::handleButtonExportClick);
-
-    // Нажатие "Открыть" в "Импорт"
-    connect(ui->buttonImport, &QPushButton::released,
-            this, &MainWindow::handleButtonImportClick);
+    // Привязываем сигналы к слотам
+    connect(ui->buttonOpen, &QPushButton::released, this, &MainWindow::handleButtonOpenClick);
+    connect(ui->selectView, &QComboBox::currentTextChanged, this, &MainWindow::handleSelectViewSelect);
+    connect(ui->buttonExport, &QPushButton::released, this, &MainWindow::handleButtonExportClick);
+    connect(ui->buttonImport, &QPushButton::released, this, &MainWindow::handleButtonImportClick);
 }
 
 MainWindow::~MainWindow()
@@ -42,11 +32,10 @@ void MainWindow::handleButtonOpenClick()
     if (fileName.isEmpty()) return;
 
     // Открываем БД
-    // TODO
+    db = new SQLite(fileName);
 
     // Читаем список таблиц
-    // TODO
-    const QStringList &tableNames = QStringList("__test__");
+    const QStringList &tableNames = db->tableNames();
 
     // Добавляем таблицы в selectView и selectExport
     ui->selectView->addItems(tableNames);
@@ -66,7 +55,7 @@ void MainWindow::handleSelectViewSelect(const QString &tableName)
     if (!tableName.isEmpty()) return;
 
     // Читаем таблицу из БД
-    // TODO
+    db->read(tableName, viewModel);
 }
 
 // Нажатие "Сохранить" в "Экспорт"
@@ -81,7 +70,7 @@ void MainWindow::handleButtonExportClick()
     if (fileName.isEmpty()) return;
 
     // Читаем таблицу из БД
-    // TODO
+    db->read(tableName, viewModel);
 
     // Сохраняем CSV
     // TODO
@@ -100,9 +89,10 @@ void MainWindow::handleButtonImportClick()
 
     // Читаем CSV
     // TODO
+    const Model &model = Model();
 
     // Сохраняем таблицу в БД
-    // TODO
+    db->write(tableName, &model);
 
     // Добавляем таблицу в selectView и selectExport
     ui->selectView->addItem(tableName);
