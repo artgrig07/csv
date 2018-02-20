@@ -2,11 +2,12 @@
 #define MODEL_H
 
 #include <QAbstractTableModel>
+#include <QList>
 #include <QMetaType>
 #include <QModelIndex>
 #include <QStringList>
 #include <QVariant>
-#include <QVector>
+#include <QVariantList>
 
 class Model : public QAbstractTableModel
 {
@@ -17,9 +18,9 @@ public:
     Model(const Model &model);
 
     typedef QStringList Schema;
-    typedef QVector<QMetaType::Type> Types;
-    typedef QVector<QVariant> Row;
-    typedef QVector<Row> Rows;
+    typedef QList<QMetaType::Type> Types;
+    typedef QVariantList Row;
+    typedef QList<Row> Rows;
 
     Schema schema;
     Types types;
