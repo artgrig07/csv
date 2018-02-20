@@ -1,17 +1,14 @@
 #ifndef SQLITE_H
 #define SQLITE_H
 
-#include <QObject>
 #include <QString>
 #include <QStringList>
 #include <QtSql>
 
 #include "model.h"
 
-class SQLite : public QObject
+class SQLite
 {
-    Q_OBJECT
-
 public:
     SQLite(const QString &fileName);
     ~SQLite();

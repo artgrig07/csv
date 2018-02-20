@@ -22,6 +22,7 @@ public:
     Types types;
     Rows rows;
 
+    void update();
     void clear();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;

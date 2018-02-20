@@ -52,10 +52,11 @@ void MainWindow::handleSelectViewSelect(const QString &tableName)
     viewModel->clear();
 
     // Проверяем что таблица выбрана
-    if (!tableName.isEmpty()) return;
+    if (tableName.isEmpty()) return;
 
     // Читаем таблицу из БД
     db->read(tableName, viewModel);
+    viewModel->update();
 }
 
 // Нажатие "Сохранить" в "Экспорт"

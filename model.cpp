@@ -1,8 +1,16 @@
 #include "model.h"
 
+void Model::update()
+{
+    emit dataChanged(createIndex(0, 0), createIndex(rowCount(), columnCount()));
+    emit layoutChanged();
+}
+
 void Model::clear()
 {
     beginResetModel();
+    schema.clear();
+    types.clear();
     rows.clear();
     endResetModel();
 }

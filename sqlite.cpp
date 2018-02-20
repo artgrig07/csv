@@ -19,7 +19,32 @@ QStringList SQLite::tableNames() const
 
 void SQLite::read(const QString &tableName, Model *model) const
 {
+    QSqlRecord record = db.record(tableName);
+    int columnCount = record.count();
 
+    // Заполняем схему
+    for (int i = 0; i < columnCount; i++) {
+        model->schema.push_back(record.fieldName(i));
+    }
+
+    // Заполняем типы
+    for (int i = 0; i < columnCount; i++) {
+        QMetaType::Type type = (QMetaType::Type)record.field(i).type();
+        if (type == QMetaType::Int) type = QMetaType::LongLong;
+
+        model->types.push_back(type);
+    }
+
+    // Заполняем строки
+    QSqlQuery query(QString("SELECT * FROM %1;").arg(tableName));
+    while (query.next()) {
+        Model::Row row;
+        for (int i = 0; i < columnCount; i++) {
+            row.push_back(query.value(i));
+        }
+
+        model->rows.push_back(row);
+    }
 }
 
 void SQLite::write(const QString &tableName, const Model *model)
