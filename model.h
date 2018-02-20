@@ -1,5 +1,5 @@
-#ifndef TABLEMODEL_H
-#define TABLEMODEL_H
+#ifndef MODEL_H
+#define MODEL_H
 
 #include <QAbstractTableModel>
 #include <QMetaType>
@@ -34,4 +34,4 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 };
 
-#endif // TABLEMODEL_H
+#endif // MODEL_H

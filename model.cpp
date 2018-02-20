@@ -2,9 +2,7 @@
 
 Model::Model(QObject *parent) :
     QAbstractTableModel(parent)
-{
-
-}
+{}
 
 Model::Model(const Model &model) :
     schema(model.schema),
@@ -16,17 +14,16 @@ Model::Model(const Model &model) :
 
 void Model::update()
 {
-    emit dataChanged(createIndex(0, 0), createIndex(rowCount(), columnCount()));
     emit layoutChanged();
 }
 
 void Model::clear()
 {
-    beginResetModel();
     schema.clear();
     types.clear();
     rows.clear();
-    endResetModel();
+
+    update();
 }
 
 

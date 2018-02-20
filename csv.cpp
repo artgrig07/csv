@@ -3,9 +3,7 @@
 
 CSV::CSV(const QString &fileName) :
     fileName(fileName)
-{
-    // TODO
-}
+{}
 
 void CSV::read(Model *model) const
 {
