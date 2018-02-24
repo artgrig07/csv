@@ -23,6 +23,15 @@ public:
     void write(const Model *model);
 
 private:
+    enum PARSING_STATE {
+        NEW_LINE,
+        NEW_FIELD,
+        SIMPLE_FIELD,
+        QUOTED_FIELD,
+        QUOTED_QUOTE,
+        END_LINE,
+    };
+
     QFile file;
     QTextStream *stream;
 
