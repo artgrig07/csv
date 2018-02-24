@@ -20,7 +20,7 @@ QStringList SQLite::tableNames() const
 void SQLite::read(const QString &tableName, Model *model) const
 {
     QSqlRecord record = db.record(tableName);
-    int columnCount = record.count();
+    const int columnCount = record.count();
 
     // Заполняем схему
     for (int i = 0; i < columnCount; i++) {

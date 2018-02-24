@@ -1,8 +1,10 @@
 #ifndef CSV_H
 #define CSV_H
 
+#include <QChar>
 #include <QFile>
 #include <QIODevice>
+#include <QMetaType>
 #include <QString>
 #include <QStringList>
 #include <QTextStream>
@@ -24,7 +26,10 @@ private:
     QFile file;
     QTextStream *stream;
 
+    Model::Row readRow() const;
     void writeRow(const Model::Row &row);
+
+    Model::Types calculateTypes(Model *model) const;
 
     Model::Schema encodeSchema(const Model::Row &row) const;
     Model::Row decodeSchema(const Model::Schema &schema) const;
