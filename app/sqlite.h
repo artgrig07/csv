@@ -1,8 +1,10 @@
 #ifndef SQLITE_H
 #define SQLITE_H
 
+#include <QMetaType>
 #include <QString>
 #include <QStringList>
+#include <QVariant>
 #include <QtSql>
 
 #include "model.h"
@@ -20,6 +22,9 @@ public:
 
 private:
     QSqlDatabase db;
+
+    QString encodeType(const QMetaType::Type type) const;
+    QString encodeValue(const QVariant &value) const;
 };
 
 #endif // SQLITE_H

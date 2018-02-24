@@ -12,6 +12,7 @@ SQLite::~SQLite()
     db.close();
 }
 
+
 QStringList SQLite::tableNames() const
 {
     return db.tables();
@@ -56,5 +57,42 @@ Model SQLite::read(const QString &tableName) const
 
 void SQLite::write(const QString &tableName, const Model *model)
 {
-    // TODO
+    const int columnCount = model->schema.count();
+
+    // Удаляем существующую таблицу
+    db.exec(QString("DROP TABLE IF EXISTS %1;").arg(tableName));
+
+    // Создаем таблицу
+    QStringList schema;
+    for (int i = 0; i < columnCount; i++) {
+        const QString &type = encodeType(model->types.at(i));
+        const QString &columnName = model->schema.at(i);
+        schema.append(QString("%1 %2").arg(columnName, type));
+    }
+    db.exec(QString("CREATE TABLE %1 (%2);").arg(tableName).arg(schema.join(", ")));
+
+    // Загружаем данные в таблицу
+    db.transaction();
+    for (const Model::Row &row: model->rows) {
+        QStringList line;
+        for (const QVariant &value : row) {
+            line << encodeValue(value);
+        }
+
+        db.exec(QString("INSERT INTO %1 VALUES (%2)").arg(tableName).arg(line.join(", ")));
+    }
+    db.commit();
+}
+
+
+QString SQLite::encodeType(const QMetaType::Type type) const
+{
+    if (type == QMetaType::LongLong) return "INTEGER";
+    if (type == QMetaType::Double) return "REAL";
+    return "TEXT";
+}
+
+QString SQLite::encodeValue(const QVariant &value) const
+{
+    return value.toString().replace("\"", "\"\"").prepend('"').append('"');
 }
