@@ -40,8 +40,8 @@ private:
 
     Model::Types calculateTypes(Model *model) const;
 
-    Model::Schema encodeSchema(const Model::Row &row) const;
-    Model::Row decodeSchema(const Model::Schema &schema) const;
+    Model::Row encodeSchema(const Model::Schema &schema) const;
+    Model::Schema decodeSchema(const Model::Row &row) const;
 
     QString encodeValue(const QVariant &value) const;
     QVariant decodeValue(const QString &str) const;

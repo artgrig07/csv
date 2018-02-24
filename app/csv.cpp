@@ -17,7 +17,7 @@ CSV::~CSV()
 void CSV::read(Model *model) const
 {
     // Читаем схему
-    model->schema << encodeSchema(readRow());
+    model->schema << decodeSchema(readRow());
 
     // Читаем строки
     while (!stream->atEnd()) model->rows << readRow();
@@ -36,7 +36,7 @@ Model CSV::read() const
 void CSV::write(const Model *model)
 {
     // Записываем схему
-    writeRow(decodeSchema(model->schema));
+    writeRow(encodeSchema(model->schema));
 
     // Записываем строки
     for (const Model::Row &row : model->rows) writeRow(row);
@@ -160,18 +160,18 @@ void CSV::writeRow(const Model::Row &row)
 }
 
 
-Model::Schema CSV::encodeSchema(const Model::Row &row) const
-{
-    Model::Schema schema;
-    for (const QVariant &value : row) schema << value.toString();
-    return schema;
-}
-
-Model::Row CSV::decodeSchema(const Model::Schema &schema) const
+Model::Row CSV::encodeSchema(const Model::Schema &schema) const
 {
     Model::Row row;
     for (const QString &str : schema) row << str;
     return row;
+}
+
+Model::Schema CSV::decodeSchema(const Model::Row &row) const
+{
+    Model::Schema schema;
+    for (const QVariant &value : row) schema << value.toString();
+    return schema;
 }
 
 
