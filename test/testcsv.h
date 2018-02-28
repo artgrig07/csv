@@ -18,7 +18,14 @@ private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
 
-    void readWrite();
+    void write();
+    void read();
+
+private:
+    QString fileName;
+    Model::Schema schema;
+    Model::Types types;
+    Model::Rows rows;
 };
 
 #endif // TESTCSV_H

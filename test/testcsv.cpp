@@ -1,37 +1,39 @@
 #include "testcsv.h"
 
 void TestCSV::initTestCase()
-{}
+{
+    fileName = "test.csv";
+    schema << Model::Schema({"col1", "col2", "col3"});
+    types << Model::Types({QMetaType::LongLong, QMetaType::Double, QMetaType::QString});
+    for (qlonglong i = 0; i < 7; i++) rows << Model::Row({i, i * .1, QString("ab;cd\"ef\ngh")});
+}
 
 void TestCSV::cleanupTestCase()
-{}
-
-
-void TestCSV::readWrite()
 {
-    QString fileName = "test.csv";
-
-    Model sourceModel;
-    sourceModel.schema << Model::Schema({"col1", "col2", "col3"});
-    sourceModel.types << Model::Types({QMetaType::LongLong, QMetaType::Double, QMetaType::QString});
-    for (qlonglong i = 0; i < 7; i++) sourceModel.rows << Model::Row({i, i * .1, QString("ab;cd\"ef\ngh")});
-
-    Model resultModel;
-
-    {
-        CSV csv(fileName);
-        csv.write(&sourceModel);
-    }
-
-    {
-        CSV csv(fileName);
-        csv.read(&resultModel);
-    }
-
-    QVERIFY(sourceModel.schema == resultModel.schema);
-    QVERIFY(sourceModel.types == resultModel.types);
-    QVERIFY(sourceModel.rows == resultModel.rows);
-
     QFile file(fileName);
     file.remove();
+}
+
+
+void TestCSV::write()
+{
+    CSV csv(fileName);
+
+    Model model;
+    model.schema << schema;
+    model.types << types;
+    model.rows << rows;
+    csv.write(&model);
+}
+
+void TestCSV::read()
+{
+    CSV csv(fileName);
+
+    Model model;
+    csv.read(&model);
+
+    QVERIFY(model.schema == schema);
+    QVERIFY(model.types == types);
+    QVERIFY(model.rows == rows);
 }
