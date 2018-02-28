@@ -5,7 +5,7 @@ void TestCSV::initTestCase()
     fileName = "test.csv";
     schema << Model::Schema({"col1", "col2", "col3"});
     types << Model::Types({QMetaType::LongLong, QMetaType::Double, QMetaType::QString});
-    for (qlonglong i = 0; i < 7; i++) rows << Model::Row({i, i * .1, QString("ab;cd\"ef\ngh")});
+    for (qlonglong i = 0; i < 7; i++) rows << Model::Row({i, i * .1, QString("ab,cd\"ef\ngh")});
 }
 
 void TestCSV::cleanupTestCase()
