@@ -24,7 +24,6 @@ public:
 
 private:
     enum PARSING_STATE {
-        NEW_LINE,
         NEW_FIELD,
         SIMPLE_FIELD,
         QUOTED_FIELD,

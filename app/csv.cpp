@@ -71,28 +71,13 @@ Model::Types CSV::calculateTypes(Model *model) const
 Model::Row CSV::readRow() const
 {
     Model::Row row;
-    PARSING_STATE state = PARSING_STATE::NEW_LINE;
+    PARSING_STATE state = PARSING_STATE::NEW_FIELD;
     QString str;
     while (!stream->atEnd() && state != PARSING_STATE::END_LINE) {
         QChar ch;
         *stream >> ch;
 
         switch (state) {
-            case PARSING_STATE::NEW_LINE:
-                if (ch == ',') {
-                    row << QString();
-                    state = PARSING_STATE::NEW_FIELD;
-                } else if (ch == '"') {
-                    str.append('"');
-                    state = PARSING_STATE::QUOTED_FIELD;
-                } else if (ch == '\n') {
-                    state = PARSING_STATE::END_LINE;
-                } else {
-                    str.append(ch);
-                    state = PARSING_STATE::SIMPLE_FIELD;
-                }
-                break;
-
             case PARSING_STATE::NEW_FIELD:
                 if (ch == ',') {
                     row << QString();
