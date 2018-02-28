@@ -46,7 +46,6 @@ private:
     QVariant decodeValue(const QString &str) const;
 
     QString escapeStr(QString str) const;
-    QString unescapeStr(QString str) const;
 };
 
 #endif // CSV_H

@@ -83,7 +83,6 @@ Model::Row CSV::readRow() const
                     row << QString();
                     state = PARSING_STATE::NEW_FIELD;
                 } else if (ch == '"') {
-                    str.append('"');
                     state = PARSING_STATE::QUOTED_FIELD;
                 } else if (ch == '\n') {
                     row << QString();
@@ -109,7 +108,6 @@ Model::Row CSV::readRow() const
 
             case PARSING_STATE::QUOTED_FIELD:
                 if (ch == '"') {
-                    str.append('"');
                     state = PARSING_STATE::QUOTED_QUOTE;
                 } else {
                     str.append(ch);
@@ -118,6 +116,7 @@ Model::Row CSV::readRow() const
 
             case PARSING_STATE::QUOTED_QUOTE:
                 if (ch == '"') {
+                    str.append('"');
                     state = PARSING_STATE::QUOTED_FIELD;
                 } else if (ch == ',') {
                     row << decodeValue(str);
@@ -177,7 +176,7 @@ QVariant CSV::decodeValue(const QString &str) const
     double doubleField = str.toDouble(&doubleOk);
     if (doubleOk) return QVariant(doubleField);
 
-    return unescapeStr(str);
+    return str;
 }
 
 
@@ -185,15 +184,6 @@ QString CSV::escapeStr(QString str) const
 {
     if (str.indexOf(',') != -1 || str.indexOf('\n') != -1 || str.indexOf('"') != -1) {
         str.replace("\"", "\"\"").prepend('"').append('"');
-    }
-
-    return str;
-}
-
-QString CSV::unescapeStr(QString str) const
-{
-    if (str.at(0) == '"') {
-        str.mid(1, str.length() - 2).replace("\"\"", "\"");
     }
 
     return str;
