@@ -46,7 +46,8 @@ public:
     void write(const Model *model);
 
 private:
-    enum PARSING_STATE {
+    enum PARSING_STATE
+    {
         NEW_FIELD,
         SIMPLE_FIELD,
         QUOTED_FIELD,

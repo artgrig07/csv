@@ -24,12 +24,14 @@ void SQLite::read(const QString &tableName, Model *model) const
     const int columnCount = record.count();
 
     // Заполняем схему
-    for (int i = 0; i < columnCount; i++) {
+    for (int i = 0; i < columnCount; i++)
+    {
         model->schema.push_back(record.fieldName(i));
     }
 
     // Заполняем типы
-    for (int i = 0; i < columnCount; i++) {
+    for (int i = 0; i < columnCount; i++)
+    {
         QMetaType::Type type = (QMetaType::Type)record.field(i).type();
         if (type == QMetaType::Int) type = QMetaType::LongLong;
 
@@ -38,9 +40,11 @@ void SQLite::read(const QString &tableName, Model *model) const
 
     // Заполняем строки
     QSqlQuery query(QString("SELECT * FROM %1;").arg(tableName));
-    while (query.next()) {
+    while (query.next())
+    {
         Model::Row row;
-        for (int i = 0; i < columnCount; i++) {
+        for (int i = 0; i < columnCount; i++)
+        {
             row.push_back(query.value(i));
         }
 
@@ -64,7 +68,8 @@ void SQLite::write(const QString &tableName, const Model *model)
 
     // Создаем таблицу
     QStringList schema;
-    for (int i = 0; i < columnCount; i++) {
+    for (int i = 0; i < columnCount; i++)
+    {
         const QString &type = encodeType(model->types.at(i));
         const QString &columnName = model->schema.at(i);
         schema.append(QString("%1 %2").arg(columnName, type));
@@ -73,9 +78,11 @@ void SQLite::write(const QString &tableName, const Model *model)
 
     // Загружаем данные в таблицу
     db.transaction();
-    for (const Model::Row &row: model->rows) {
+    for (const Model::Row &row: model->rows)
+    {
         QStringList line;
-        for (const QVariant &value : row) {
+        for (const QVariant &value : row)
+        {
             line << encodeValue(value);
         }
 

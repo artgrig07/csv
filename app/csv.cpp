@@ -52,9 +52,11 @@ Model::Types CSV::calculateTypes(Model *model) const
     for (int i = 0; i < columnCount; i++) types << QMetaType::LongLong;
 
     // Обходим все строки
-    for (const Model::Row &row : model->rows) {
+    for (const Model::Row &row : model->rows)
+    {
         // Обходим все колонки
-        for (int i = 0; i < columnCount; i++) {
+        for (int i = 0; i < columnCount; i++)
+        {
             // Получаем тип текущего поля
             const QMetaType::Type fieldType = (QMetaType::Type)row.at(i).userType();
 
@@ -73,63 +75,85 @@ Model::Row CSV::readRow() const
     Model::Row row;
     PARSING_STATE state = PARSING_STATE::NEW_FIELD;
     QString str;
-    while (!stream->atEnd() && state != PARSING_STATE::END_LINE) {
+    while (!stream->atEnd() && state != PARSING_STATE::END_LINE)
+    {
         QChar ch;
         *stream >> ch;
 
-        switch (state) {
-            case PARSING_STATE::NEW_FIELD:
-                if (ch == ',') {
-                    row << QString();
-                    state = PARSING_STATE::NEW_FIELD;
-                } else if (ch == '"') {
-                    state = PARSING_STATE::QUOTED_FIELD;
-                } else if (ch == '\n') {
-                    row << QString();
-                    state = PARSING_STATE::END_LINE;
-                } else {
-                    str.append(ch);
-                    state = PARSING_STATE::SIMPLE_FIELD;
-                }
-                break;
+        switch (state)
+        {
+        case PARSING_STATE::NEW_FIELD:
+            if (ch == ',')
+            {
+                row << QString();
+                state = PARSING_STATE::NEW_FIELD;
+            }
+            else if (ch == '"')
+            {
+                state = PARSING_STATE::QUOTED_FIELD;
+            }
+            else if (ch == '\n')
+            {
+                row << QString();
+                state = PARSING_STATE::END_LINE;
+            }
+            else
+            {
+                str.append(ch);
+                state = PARSING_STATE::SIMPLE_FIELD;
+            }
+            break;
 
-            case PARSING_STATE::SIMPLE_FIELD:
-                if (ch == ',') {
-                    row << decodeValue(str);
-                    str.clear();
-                    state = PARSING_STATE::NEW_FIELD;
-                } else if (ch == '\n') {
-                    row << decodeValue(str);
-                    state = PARSING_STATE::END_LINE;
-                } else {
-                    str.append(ch);
-                }
-                break;
+        case PARSING_STATE::SIMPLE_FIELD:
+            if (ch == ',')
+            {
+                row << decodeValue(str);
+                str.clear();
+                state = PARSING_STATE::NEW_FIELD;
+            }
+            else if (ch == '\n')
+            {
+                row << decodeValue(str);
+                state = PARSING_STATE::END_LINE;
+            }
+            else
+            {
+                str.append(ch);
+            }
+            break;
 
-            case PARSING_STATE::QUOTED_FIELD:
-                if (ch == '"') {
-                    state = PARSING_STATE::QUOTED_QUOTE;
-                } else {
-                    str.append(ch);
-                }
-                break;
+        case PARSING_STATE::QUOTED_FIELD:
+            if (ch == '"')
+            {
+                state = PARSING_STATE::QUOTED_QUOTE;
+            }
+            else
+            {
+                str.append(ch);
+            }
+            break;
 
-            case PARSING_STATE::QUOTED_QUOTE:
-                if (ch == '"') {
-                    str.append('"');
-                    state = PARSING_STATE::QUOTED_FIELD;
-                } else if (ch == ',') {
-                    row << decodeValue(str);
-                    str.clear();
-                    state = PARSING_STATE::NEW_FIELD;
-                } else if (ch == '\n') {
-                    row << decodeValue(str);
-                    state = PARSING_STATE::END_LINE;
-                }
-                break;
+        case PARSING_STATE::QUOTED_QUOTE:
+            if (ch == '"')
+            {
+                str.append('"');
+                state = PARSING_STATE::QUOTED_FIELD;
+            }
+            else if (ch == ',')
+            {
+                row << decodeValue(str);
+                str.clear();
+                state = PARSING_STATE::NEW_FIELD;
+            }
+            else if (ch == '\n')
+            {
+                row << decodeValue(str);
+                state = PARSING_STATE::END_LINE;
+            }
+            break;
 
-            default:
-                break;
+        default:
+            break;
         }
     }
 
@@ -182,7 +206,8 @@ QVariant CSV::decodeValue(const QString &str) const
 
 QString CSV::escapeStr(QString str) const
 {
-    if (str.indexOf(',') != -1 || str.indexOf('\n') != -1 || str.indexOf('"') != -1) {
+    if (str.indexOf(',') != -1 || str.indexOf('\n') != -1 || str.indexOf('"') != -1)
+    {
         str.replace("\"", "\"\"").prepend('"').append('"');
     }
 
