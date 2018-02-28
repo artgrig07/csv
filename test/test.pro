@@ -26,12 +26,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         testcsv.cpp \
+        testsqlite.cpp \
         ../app/model.cpp \
-        ../app/csv.cpp
+        ../app/csv.cpp \
+        ../app/sqlite.cpp
 
 HEADERS += \
         testcsv.h \
+        testsqlite.h \
         ../app/model.h \
-        ../app/csv.h
+        ../app/csv.h \
+        ../app/sqlite.h
 
 DESTDIR = $$PWD/../build
