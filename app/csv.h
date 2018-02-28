@@ -15,11 +15,34 @@
 class CSV
 {
 public:
+    /**
+     * Constructs a new CSV object with the given fileName
+     *
+     * \param[in] fileName CSV file name
+     */
     CSV(const QString &fileName);
+
     ~CSV();
 
+    /**
+     * Reads CSV file into model
+     *
+     * \param[out] model Pointer to model where data from CSV file will be stored
+     */
     void read(Model *model) const;
+
+    /**
+     * Reads CSV file into model
+     *
+     * \return Pointer to model where data from CSV file will be stored
+     */
     Model read() const;
+
+    /**
+     * Writes CSV file from model
+     *
+     * \param[in] model Pointer to model where data for CSV file is stored
+     */
     void write(const Model *model);
 
 private:

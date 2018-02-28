@@ -26,7 +26,14 @@ public:
     Types types;
     Rows rows;
 
+    /**
+     * Updates table view
+     */
     void update();
+
+    /**
+     * Clears data and updates table view
+     */
     void clear();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
